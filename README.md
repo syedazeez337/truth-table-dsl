@@ -1,47 +1,48 @@
-# Truthy — Boolean Expression DSL with Truth Tables
+# Truth Table DSL
 
-**Truthy** is a small domain-specific language (DSL) and CLI toolset for working with Boolean logic.  
-It lets you parse logical expressions, list the variables used, and generate full truth tables.
+**truth-table-dsl** is a small domain-specific language (DSL) and CLI toolset for working with Boolean logic.  
+It parses logical expressions, lists the variables used, and generates full truth tables.
+
+Built with [ANTLR 4](https://www.antlr.org/) (Go target) and Go.
 
 ---
 
 ## ✨ Features
 
-- **Operators** (with proper precedence & associativity):
-  - `!` — NOT
+- **Operators** (with precedence & associativity):
+  - `!` — NOT (highest precedence, unary)
   - `&` — AND
   - `|` — OR (inclusive)
 - **Literals:** `true`, `false`
 - **Parentheses** for grouping
-- **Variable identifiers:** `A`, `B`, `x1`, `foo`, …
+- **Identifiers:** variables like `A`, `B`, `x1`, `foo`
 
-Tools included:
-- `tt` — generate full truth table for an expression
-- `vars` — list all variables used in an expression
+### Tools
+- **`tt`** — generate a full truth table for an expression
+- **`vars`** — list all variables used in an expression
 
 ---
 
-## 📦 Installation
+## 📦 Build
 
-Build from source:
+Clone and build from source:
 
 ```powershell
-# Clone the repo
-git clone https://github.com/syedazeez337/truthy.git
-cd truthy
+git clone https://github.com/syedazeez337/truth-table-dsl.git
+cd truth-table-dsl
 
-# Build executables (Windows example)
+# build executables
 go build -o .\bin\tt.exe   .\cmd\tt
 go build -o .\bin\vars.exe .\cmd\vars
 ````
 
-Executables will be in `./bin`.
+Executables will appear in `./bin`.
 
 ---
 
 ## 🚀 Usage
 
-### `tt` — truth table generator
+### Generate a truth table
 
 ```powershell
 .\bin\tt.exe "A & !B | C"
@@ -61,7 +62,7 @@ T   T   F   F
 T   T   T   T
 ```
 
-### `vars` — variable lister
+### List variables
 
 ```powershell
 .\bin\vars.exe "A & !B | C"
@@ -76,7 +77,7 @@ vars: A, B, C
 
 ### Stdin mode
 
-Both tools also read from stdin if no argument is given:
+Both tools also read from stdin:
 
 ```powershell
 echo "(true | A) & !false" | .\bin\tt.exe
@@ -89,6 +90,8 @@ echo "(true | A) & !false" | .\bin\tt.exe
 ANTLR4 grammar (current):
 
 ```antlr
+grammar TruthExpr;
+
 expr
     : '!' expr             # Not
     | expr '&' expr        # And
@@ -113,12 +116,12 @@ LINE_COMMENT : '//' ~[\r\n]* -> skip ;
 ```
 .
 ├── grammar/        # ANTLR grammar (.g4)
-├── parser/         # Generated Go sources (antlr4 -Dlanguage=Go …)
+├── parser/         # Generated Go parser (antlr4 -Dlanguage=Go …)
 ├── internal/engine # Shared Go code (parse, eval, truth table)
 ├── cmd/
 │   ├── tt/         # Truth table CLI
 │   └── vars/       # Variable lister CLI
-└── bin/            # Compiled executables
+└── bin/            # Built executables
 ```
 
 ---
@@ -126,8 +129,14 @@ LINE_COMMENT : '//' ~[\r\n]* -> skip ;
 ## 📖 Background
 
 This project is an educational DSL for Boolean logic.
-It parses expressions, finds all variables, and generates complete truth tables.
-Useful for learning propositional logic, compilers, or just playing with Boolean algebra.
+It demonstrates how to:
+
+* Write an ANTLR grammar
+* Generate a Go parser
+* Evaluate Boolean expressions
+* Enumerate variables and build truth tables
+
+Useful for learning propositional logic, ANTLR, and compiler-style DSLs in Go.
 
 ---
 
