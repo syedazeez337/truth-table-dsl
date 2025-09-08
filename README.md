@@ -143,5 +143,3 @@ Useful for learning propositional logic, ANTLR, and compiler-style DSLs in Go.
 ## 📜 License
 
 MIT. See [LICENSE](LICENSE).
-
-```
