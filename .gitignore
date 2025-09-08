@@ -1,0 +1,14 @@
+# build outputs
+/bin/
+/*.exe
+
+# antlr artifacts
+*.interp
+*.tokens
+*.class
+.antlr/
+parser/.antlr/
+
+# editors
+.vscode/
+.idea/
